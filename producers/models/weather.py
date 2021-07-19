@@ -86,13 +86,13 @@ class Weather(Producer):
         print(f"{Weather.rest_proxy_url}/topics/{self.weatherTopic}")
         print(f"value_schema: {Weather.value_schema}, type: {type(Weather.value_schema)}")
         _weatherData = {
-                "key_schema": str(Weather.key_schema),
-                "value_schema": str(Weather.value_schema),
+                "value_schema": json.dumps(Weather.value_schema),
+                "key_schema": json.dumps(Weather.key_schema),
                 "records": [
-                    {"value": {
-                        "temperature": self.temp,
-                        "status": str(self.status)
-                    }}
+                    {
+                        "key": {"timestamp": self.time_millis()},
+                        "value": {"temperature": self.temp, "status": self.status.name}
+                    }
                 ]
         }
         print(_weatherData)

@@ -56,12 +56,14 @@ class Turnstile(Producer):
         # of entries that were calculated
         #
         #
+        _datavalue = {
+            "station_id": str(self.station),
+            "station_name": str(self.topic_name),
+            "line": str(self.station.color)
+        }
+        print(f"In turnstile run value: {_datavalue}")
         self.producer.produce(
             topic=self.topic_name,
             key={"timestamp": self.time_millis()},
-            value={
-                "station_id": str(self.station),
-                "station_name": str(self.topic_name),
-                "line": str(self.station.color)
-            }
+            value=_datavalue
         )
